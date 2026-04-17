@@ -1244,7 +1244,34 @@
   will-change: transform;
 }
 
-/* ===================== TABLET — max 1024px ===================== */
+/* ===================== LAPTOP NAV FIT — 1025px to 1400px ===================== */
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .nav {
+    padding: 12px 20px;
+  }
+
+  .nav nav {
+    gap: 16px;
+  }
+
+  .nav nav a {
+    font-size: 12px;
+    margin: 0 6px;
+    letter-spacing: 0.3px;
+  }
+
+  .nav_logo {
+    width: 180px;
+    height: 36px;
+  }
+
+  .nav nav button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ===================== TABLET / MOBILE — max 1024px ===================== */
 @media (max-width: 1024px) {
 
   /* Navbar */
@@ -1282,11 +1309,9 @@
     position: fixed;
     top: 0;
     right: -100%;
-    /* width: min(300px, 78vw);
-    height: 100dvh; */
+    width: min(320px, 80vw);
+    height: 100dvh;
     background: #000000c2;
-
-
     padding: 90px 32px 32px;
     gap: 4px;
     transition: right 0.35s ease;
