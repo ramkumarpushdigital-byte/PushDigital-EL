@@ -105,8 +105,9 @@
 .nav nav {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 40px;
+  justify-content: space-between;
+  gap: clamp(8px, 1.5vw, 24px);
+  flex-wrap: nowrap;
 }
 
 
@@ -115,8 +116,9 @@
 }
 
 .nav_logo {
-  width: 225px;
-  height: 42px;
+  width: clamp(160px, 14vw, 225px);
+  height: auto;
+  flex-shrink: 0;
 }
 
 /* Logo button — invisible wrapper so logo acts like a clickable element */
@@ -141,12 +143,12 @@
   text-decoration: none;
   font-family: "Space Grotesk", sans-serif;
   color: #e2e8f0;
-  font-size: 14px;
+  font-size: clamp(14px, 0.85vw, 14px);
   font-weight: 600;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
-  margin: 0 12px;
   position: relative;
+  white-space: nowrap;
   transition: color 0.3s ease;
 }
 
@@ -167,23 +169,28 @@
   color: #00d4ff;
 }
 
-/* Active state — underline fully extended */
+/* Active state — underline fully extended + cyan glow */
 .nav nav a.active {
   color: #00d4ff;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.7), 0 0 22px rgba(0, 212, 255, 0.35);
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
 .nav nav a.active::after {
   width: 100%;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.85), 0 0 16px rgba(0, 212, 255, 0.45);
 }
 
 
 .nav nav button {
   background-color: #38bdf8;
   border: none;
-  padding: 10px 18px;
+  padding: clamp(6px, 0.6vw, 10px) clamp(10px, 1vw, 18px);
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 
@@ -199,6 +206,149 @@
 }
 
 /* removed old 900px nav rules — hamburger at 1024px handles responsive */
+
+/* ============ LAPTOP NAVBAR SCALING — 1025px to 1599px ============
+   Keeps the full inline desktop nav (no hamburger) but fluidly scales
+   padding, logo, gap, link font, margin, and button so 8 links + logo
+   + CTA fit cleanly across 1280 / 1366 / 1440 / 1536 / 1599 laptops.
+   Does NOT touch base styles — only adds overrides inside this range. */
+@media (min-width: 1025px) and (max-width: 1599px) {
+  .nav {
+    padding: 10px clamp(14px, 1.8vw, 30px);
+  }
+
+  .nav_logo {
+    width: clamp(150px, 13vw, 210px);
+    height: auto;
+  }
+
+  .nav nav {
+    gap: clamp(2px, 0.7vw, 16px);
+  }
+
+  .nav nav a {
+    font-size: clamp(10px, 0.82vw, 13px);
+    margin: 0 clamp(2px, 0.35vw, 8px);
+    letter-spacing: 0.25px;
+  }
+
+  .nav nav button {
+    padding: 7px clamp(10px, 1vw, 14px);
+  }
+
+  .nav nav button a {
+    font-size: clamp(11px, 0.82vw, 13px);
+    letter-spacing: 0.2px;
+  }
+
+}
+
+/* ============ SCROLL-NAV GLOW ON CTA BUTTON ============
+   The GSAP ScrollTrigger darkens .nav as the hero scrolls away.
+   Give the Book-a-Consultation button a cyan glow so it stays
+   visually prominent against the darkened nav background. */
+.nav nav button {
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.35), 0 0 36px rgba(0, 212, 255, 0.15);
+}
+
+.nav nav button:hover {
+  box-shadow: 0 0 26px rgba(0, 212, 255, 0.65), 0 0 52px rgba(0, 212, 255, 0.28);
+}
+
+/* ============ NAV CONTENT ALIGNMENT — per device breakpoint ============
+   Alignment-only tweaks (vertical centering + small padding balance) so
+   logo / links / CTA sit perfectly centered top-to-bottom on each target
+   screen. Does NOT change nav size, colors, fonts, or layout direction. */
+
+/* Small Laptop / Tablet Landscape — 1024×768 */
+@media (min-width: 1025px) and (max-width: 1279px) {
+  .nav {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .nav nav {
+    align-items: center;
+    min-height: 38px;
+  }
+  .nav_logo {
+    align-self: center;
+  }
+  .nav_links {
+    align-items: center;
+  }
+  .nav_links a {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .nav nav button {
+    align-self: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
+
+/* Medium Laptop — 1366×768 */
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .nav {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+  .nav nav {
+    align-items: center;
+    min-height: 42px;
+  }
+  .nav_logo {
+    align-self: center;
+  }
+  .nav_links {
+    align-items: center;
+  }
+  .nav_links a {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .nav nav button {
+    align-self: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+/* Large Laptop / Desktop — 1440×900 & 1920×1080 */
+@media (min-width: 1440px) {
+  .nav {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .nav nav {
+    align-items: center;
+    min-height: 48px;
+  }
+  .nav_logo {
+    align-self: center;
+  }
+  .nav_links {
+    align-items: center;
+  }
+  .nav_links a {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .nav nav button {
+    align-self: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
 
 .big_text {
   font-family: "Space Grotesk", sans-serif;
@@ -336,8 +486,8 @@
 .center {
   margin-top: 50px;
   max-width: 100%;
-  width: 800px;
-  margin-left: 250px;
+  width: min(800px, 100%);
+  margin-left: clamp(0px, 17vw, 250px);
   text-align: center;
 }
 
@@ -373,13 +523,22 @@
   background-color: #02040e9c;
 }
 
+.about > div {
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
 .about_vid {
   perspective: 800px;
+  width: 100%;
 }
 
 .about_vid video {
-  height: 731px;
-  width: 1300px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1300 / 731;
   border-radius: 35%;
   will-change: transform;
 }
@@ -412,6 +571,7 @@
 /* Grid Layout */
 .we_flex {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
 }
@@ -1227,49 +1387,29 @@
 }
 
 .nav_links {
-  display: contents;
-
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.2vw, 24px);
+  flex: 1;
+  justify-content: space-evenly;
 }
 
 /* ===================== VID SECTION (responsive fix) ===================== */
 .vid_section {
-  margin-left: 260px;
-  padding: 50px 0;
+  margin: 0 auto;
+  padding: 50px 20px;
   perspective: 800px;
+  display: flex;
+  justify-content: center;
+  max-width: 1600px;
 }
 
 .vid_section video {
   border-radius: 47%;
-  width: 80%;
+  width: min(80%, 1200px);
   will-change: transform;
 }
 
-/* ===================== LAPTOP NAV FIT — 1025px to 1400px ===================== */
-@media (min-width: 1025px) and (max-width: 1400px) {
-  .nav {
-    padding: 12px 20px;
-  }
-
-  .nav nav {
-    gap: 16px;
-  }
-
-  .nav nav a {
-    font-size: 12px;
-    margin: 0 6px;
-    letter-spacing: 0.3px;
-  }
-
-  .nav_logo {
-    width: 180px;
-    height: 36px;
-  }
-
-  .nav nav button {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-}
 
 /* ===================== TABLET / MOBILE — max 1024px ===================== */
 @media (max-width: 1024px) {
@@ -1310,7 +1450,7 @@
     top: 0;
     right: -100%;
     width: min(320px, 80vw);
-    height: 100dvh;
+    /* height: 100dvh; */
     background: #000000c2;
     padding: 90px 32px 32px;
     gap: 4px;
@@ -1480,6 +1620,25 @@
   .cta_title {
     font-size: 30px;
     line-height: 36px;
+  }
+}
+
+/* ===== WHAT WE DO — always 4 cards horizontally on laptop & desktop =====
+   Applies at every width ≥ 1024px. Placed AFTER the max-width:1024 block
+   so it wins the cascade at exactly 1024px (same-specificity tie-breaker).
+   Cards share available space equally, capped at 316px, centered on big
+   desktops — 4 across on iPad landscape, 1366/1440/1920, everywhere. */
+@media (min-width: 1024px) {
+  .we_flex {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 316px));
+    justify-content: center;
+    gap: clamp(16px, 1.8vw, 50px);
+    padding: 0 24px;
+    flex-wrap: initial;
+  }
+  .what_we {
+    width: auto;
   }
 }
 

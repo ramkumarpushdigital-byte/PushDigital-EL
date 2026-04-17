@@ -27,11 +27,12 @@ const NAV_SECTIONS = [
 function Home() {
   const mainRef = useRef(null)
   const lenisRef = useRef(null)
+  const spyLockRef = useRef(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
 
   // Reads the real navbar height at call-time — works on both desktop & mobile
-  const navOffset = () => -(document.querySelector('.nav')?.offsetHeight ?? 80)
+  const navOffset = () => -(document.querySelector('.nav')?.offsetHeight ?? 10)
 
   // ============ PAGE LOADER ============
   useEffect(() => {
@@ -74,11 +75,15 @@ function Home() {
     const el = mainRef.current
     if (!el) return
 
-    // ============ LENIS SMOOTH SCROLL ============
+    // ============ LENIS ULTRA-SMOOTH SCROLL ============
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.8,
+      easing: (t) => 1 - Math.pow(1 - t, 5),   // quint ease-out — long, buttery deceleration
+      lerp: 0.06,                                // low lerp = silkier interpolation
       smoothWheel: true,
+      smoothTouch: true,                         // smooth scroll on touch devices too
+      wheelMultiplier: 1.2,                      // slightly amplified wheel for responsiveness
+      touchMultiplier: 1.8,                      // comfortable touch momentum
     })
     lenisRef.current = lenis
     lenis.on('scroll', ScrollTrigger.update)
@@ -86,15 +91,20 @@ function Home() {
     gsap.ticker.lagSmoothing(0)
 
     // ============ SCROLL SPY — Lenis scroll event (zero dead zones) ============
+    // Section activates as soon as its top enters the top ~30% of the viewport
+    // (just below the nav). When a nav link is clicked, the handler sets
+    // spyLockRef so the spy doesn't overwrite the clicked section's active
+    // state while the programmatic smooth-scroll is animating.
     const updateSpy = ({ scroll }) => {
-      // Read live navbar height so spy threshold is correct on any screen size
-      const navH = document.querySelector('.nav')?.offsetHeight ?? 70
+      if (spyLockRef.current) return
+      const navH = document.querySelector('.nav')?.offsetHeight ?? 1
+      const triggerOffset = navH + window.innerHeight * 0.3
       let current = NAV_SECTIONS[0].id
       NAV_SECTIONS.forEach(({ id }) => {
         const sec = document.getElementById(id)
         if (!sec) return
         const sectionTop = sec.getBoundingClientRect().top + scroll
-        if (scroll >= sectionTop - navH) {
+        if (scroll + triggerOffset >= sectionTop) {
           current = id
         }
       })
@@ -735,7 +745,13 @@ function Home() {
                 onClick={(e) => {
                   e.preventDefault()
                   setMenuOpen(false)
-                  lenisRef.current?.scrollTo(`#${id}`, { offset: navOffset(), duration: 1.5 })
+                  setActiveSection(id)
+                  spyLockRef.current = true
+                  lenisRef.current?.scrollTo(`#${id}`, {
+                    offset: navOffset(),
+                    duration: 1.2,
+                    onComplete: () => { spyLockRef.current = false }
+                  })
                 }}
               >
                 {label}
@@ -1037,7 +1053,13 @@ function Home() {
                   className={activeSection === id ? 'active' : ''}
                   onClick={(e) => {
                     e.preventDefault()
-                    lenisRef.current?.scrollTo(`#${id}`, { offset: navOffset(), duration: 1.2 })
+                    setActiveSection(id)
+                    spyLockRef.current = true
+                    lenisRef.current?.scrollTo(`#${id}`, {
+                      offset: navOffset(),
+                      duration: 1.2,
+                      onComplete: () => { spyLockRef.current = false }
+                    })
                   }}
                 >
                   {label}
