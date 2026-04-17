@@ -31,7 +31,7 @@ function Home() {
   const [activeSection, setActiveSection] = useState('hero')
 
   // Reads the real navbar height at call-time — works on both desktop & mobile
-  const navOffset = () => -(document.querySelector('.nav')?.offsetHeight ?? 70)
+  const navOffset = () => -(document.querySelector('.nav')?.offsetHeight ?? 80)
 
   // ============ PAGE LOADER ============
   useEffect(() => {
