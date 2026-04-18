@@ -715,7 +715,7 @@ function Home() {
       {/* ===== PAGE LOADER ===== */}
       <div id="__loader__" className="loader">
         <div className="loader_inner">
-          <img className="loader_logo" src="/Assets/logo.png" alt="Push Digital" />
+          <img className="loader_logo" src="/Assets/Logo.png" alt="Push Digital" />
           <p className="loader_tagline">Enabling the Future of Electronics</p>
         </div>
         <div className="loader_bar_wrap">
@@ -728,7 +728,7 @@ function Home() {
       <section className='nav'>
         <nav>
 
-          <img className="nav_logo" aria-label="Scroll to top" src="/Assets/logo.png" alt="Push Digital" onClick={() => lenisRef.current?.scrollTo('#hero', { offset: navOffset(), duration: 1.6 })} />
+          <img className="nav_logo" aria-label="Scroll to top" src="/Assets/Logo.png" alt="Push Digital" onClick={() => lenisRef.current?.scrollTo('#hero', { offset: navOffset(), duration: 1.6 })} />
 
 
           <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
