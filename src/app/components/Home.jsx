@@ -14,7 +14,7 @@ if (typeof window !== 'undefined') {
 
 // Section → nav label mapping
 const NAV_SECTIONS = [
-  { id: 'hero', label: 'Home' },
+  { id: 'hero', label: 'Home', prop:"home" },
   { id: 'about', label: 'About' },
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'infrastructure', label: 'Infrastructure' },
@@ -30,6 +30,7 @@ function Home() {
   const spyLockRef = useRef(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
+  const [openFaq, setOpenFaq] = useState(null)
 
   // Reads the real navbar height at call-time — works on both desktop & mobile
   const navOffset = () => -(document.querySelector('.nav')?.offsetHeight ?? 10)
@@ -714,7 +715,7 @@ function Home() {
       {/* ===== PAGE LOADER ===== */}
       <div id="__loader__" className="loader">
         <div className="loader_inner">
-          <img className="loader_logo" src="/Assets/Push digital logo.svg" alt="Push Digital" />
+          <img className="loader_logo" src="/Assets/logo.png" alt="Push Digital" />
           <p className="loader_tagline">Enabling the Future of Electronics</p>
         </div>
         <div className="loader_bar_wrap">
@@ -727,7 +728,7 @@ function Home() {
       <section className='nav'>
         <nav>
 
-          <img className="nav_logo" aria-label="Scroll to top" src="/Assets/Push digital logo.svg" alt="Push Digital" onClick={() => lenisRef.current?.scrollTo('#hero', { offset: navOffset(), duration: 1.6 })} />
+          <img className="nav_logo" aria-label="Scroll to top" src="/Assets/logo.png" alt="Push Digital" onClick={() => lenisRef.current?.scrollTo('#hero', { offset: navOffset(), duration: 1.6 })} />
 
 
           <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
@@ -737,10 +738,11 @@ function Home() {
           </button>
 
           <div className={`nav_links ${menuOpen ? 'open' : ''}`}>
-            {NAV_SECTIONS.map(({ id, label }) => (
+            {NAV_SECTIONS.map(({ id, label,prop }) => (
               <a
                 key={id}
                 href={`#${id}`}
+                id={prop}
                 className={activeSection === id ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault()
@@ -896,22 +898,30 @@ function Home() {
             <div  >
               <p>From Idea to <span className="blue">Market</span></p>
               <div className="baddie">
-                <div>
-                  <div className="rounded">1</div>
-                  <div className="rounded">2</div>
-                  <div className="rounded">3</div>
-                  <div className="rounded">4</div>
-                  <div className="rounded">5</div>
-                  <div className="rounded">6</div>
+                <div className="baddie-line" />
+                <div className="baddie-step">
+                  <div className="baddie-circle"><div className="rounded">1</div></div>
+                  <div className="baddie-label">Concept <br />Development</div>
                 </div>
-                <hr />
-                <div>
-                  <div>Concept <br />Development</div>
-                  <div>Design & <br />Simulation</div>
-                  <div>Prototype <br />Fabrication</div>
-                  <div>Testing & <br />Validation</div>
-                  <div>Iteration & <br />Optimization</div>
-                  <div>Batch Production</div>
+                <div className="baddie-step">
+                  <div className="baddie-circle"><div className="rounded">2</div></div>
+                  <div className="baddie-label">Design & <br />Simulation</div>
+                </div>
+                <div className="baddie-step">
+                  <div className="baddie-circle"><div className="rounded">3</div></div>
+                  <div className="baddie-label">Prototype <br />Fabrication</div>
+                </div>
+                <div className="baddie-step">
+                  <div className="baddie-circle"><div className="rounded">4</div></div>
+                  <div className="baddie-label">Testing & <br />Validation</div>
+                </div>
+                <div className="baddie-step">
+                  <div className="baddie-circle"><div className="rounded">5</div></div>
+                  <div className="baddie-label">Iteration & <br />Optimization</div>
+                </div>
+                <div className="baddie-step">
+                  <div className="baddie-circle"><div className="rounded">6</div></div>
+                  <div className="baddie-label">Batch Production</div>
                 </div>
               </div>
 
@@ -1007,22 +1017,40 @@ function Home() {
           <p className="faq_tag">FAQ</p>
           <p className="faq_title">Common Questions</p>
           <div className="faq_list">
-            <div className="faq_item">
-              <p>What is Electroluminescent Ink?</p>
-              <span>+</span>
-            </div>
-            <div className="faq_item">
-              <p>What's the minimum order?</p>
-              <span>+</span>
-            </div>
-            <div className="faq_item">
-              <p>How fast is prototyping?</p>
-              <span>+</span>
-            </div>
-            <div className="faq_item">
-              <p>What substrates do you support?</p>
-              <span>+</span>
-            </div>
+            {[
+              {
+                q: "What is Electroluminescent Ink?",
+                a: "Electroluminescent (EL) ink is a phosphor-based material that emits light when an alternating electric current is applied. It enables ultra-thin, flexible lighting for displays, wearables, and smart surfaces without heat or bulk."
+              },
+              {
+                q: "What's the minimum order?",
+                a: "We support both small-batch prototyping and large-scale production. Minimum order quantities vary by product type and substrate — contact us for a custom quote tailored to your project needs."
+              },
+              {
+                q: "How fast is prototyping?",
+                a: "Our prototyping turnaround is typically 5–10 business days depending on complexity and material requirements. Rush options are available for time-sensitive projects."
+              },
+              {
+                q: "What substrates do you support?",
+                a: "We print on a wide range of substrates including PET, PVC, fabric, paper, and custom flexible films. If you have a specific substrate in mind, we can evaluate compatibility for your application."
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className={`faq_item${openFaq === i ? " faq_open" : ""}`}
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+              >
+                <div className="faq_item_head">
+                  <p>{item.q}</p>
+                  <span>{openFaq === i ? "×" : "+"}</span>
+                </div>
+                {openFaq === i && (
+                  <div className="faq_answer">
+                    <p>{item.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
