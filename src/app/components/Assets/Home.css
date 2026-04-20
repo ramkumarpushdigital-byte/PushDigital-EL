@@ -1581,6 +1581,9 @@
     display: block;
     transition: color 0.25s ease, padding-left 0.25s ease;
   }
+  .nav_links > #home{
+    margin-left: 0;
+  }
 
   .nav_links a:hover,
   .nav_links a.active {
@@ -1639,7 +1642,7 @@
 
   .about_vid {
     margin: 0 !important;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .about_vid video {
@@ -1694,7 +1697,7 @@
 
   .idea_vid {
     margin: 0 !important;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .idea_vid video {
@@ -1702,6 +1705,7 @@
     max-width: 100% !important;
     flex-shrink: 1 !important;
     margin-right: 0 !important;
+    padding: 0 20px;
   }
 
   /* Why Choose Us */
@@ -1759,6 +1763,7 @@
 
   .serve_flex {
     grid-template-columns: repeat(2, 1fr);
+    margin-left: 30px;
   }
 
   /* FAQ */
@@ -2191,6 +2196,9 @@
 
   .nav_links {
     padding: 70px 24px 24px;
+  }
+  .nav_links>#home{
+    margin-left: 0;
   }
 
   .nav_links a {
