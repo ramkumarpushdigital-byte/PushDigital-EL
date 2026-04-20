@@ -1427,6 +1427,18 @@
   color: #00d4ff;
   font-size: 16px;
   line-height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.footer_contact_row .ic img {
+  display: block;
+  width: 16px;
+  height: auto;
 }
 
 .footer_contact_row p {
