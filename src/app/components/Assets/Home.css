@@ -146,7 +146,7 @@
 
 .nav nav a {
   text-decoration: none;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #e2e8f0;
   font-size: clamp(14px, 0.85vw, 14px);
   /* font-weight: 600; */
@@ -1775,7 +1775,7 @@
 
   .serve_flex {
     grid-template-columns: repeat(2, 1fr);
-    margin-left: 30px;
+           margin-left: 30px;
   }
 
   /* FAQ */
@@ -2457,6 +2457,7 @@
   .serve_flex {
     grid-template-columns: 1fr !important;
     gap: 14px !important;
+            margin-left: 0;
   }
 
   .serve_flex>div {
