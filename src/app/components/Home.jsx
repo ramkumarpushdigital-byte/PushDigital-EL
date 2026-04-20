@@ -1012,7 +1012,7 @@ function Home() {
 
 
 
-      <section className="faq" id="contact">
+      <section className="faq" >
         <div className="faq_inner">
           <p className="faq_tag">FAQ</p>
           <p className="faq_title">Common Questions</p>
@@ -1055,7 +1055,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="cta">
+      <section className="cta" id="contact">
         <div className="cta_inner">
           <p className="cta_title">Ready to Build the Future of <span>Electronics?</span></p>
           <div className="cta_buttons">
